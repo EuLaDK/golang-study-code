@@ -1,0 +1,20 @@
+# Local configuration.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Go build and test output.
+*.exe
+*.test
+*.prof
+coverage.out
+coverage.html
+/bin/
+/dist/
+
+# Local editor and operating system files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
