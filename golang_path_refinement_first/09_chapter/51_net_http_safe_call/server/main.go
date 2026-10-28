@@ -32,14 +32,38 @@ import (
 // 一旦HTTPS安全传输层的连接成功建立起来，后续双方通信的内容（应用层的HTTP协议）就会在一个进过加密处理的安全通道中得以传输
 
 func main() {
+	// 对服务端证书的校验
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Hello, World!\n")
 	})
 
 	fmt.Println("server start at https://localhost:8081")
 	// ListenAndServeTLS(addr, certFile, keyFile, handler)
-	err := http.ListenAndServeTLS("localhost:8081", "server.crt", "server.key", nil)
+	err := http.ListenAndServeTLS("localhost:8081", "./server.crt", "./server.key", nil)
 	if err != nil {
 		fmt.Printf("server start failed: %v\n", err)
 	}
+
+	// 对客户端证书的校验
+	// pool := x509.NewCertPool()
+	// caCertPath := "./server.crt"
+
+	// caCrt, err := os.ReadFile(caCertPath)
+	// if err != nil {
+	// 	fmt.Println("ReadFile err:", err)
+	// 	return
+	// }
+	// pool.AppendCertsFromPEM(caCrt)
+
+	// s := &http.Server{
+	// 	Addr: "localhost:8081",
+	// 	Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	// 		fmt.Fprintf(w, "hello world\n")
+	// 	}),
+	// 	TLSConfig: &tls.Config{
+	// 		ClientCAs:  pool,
+	// 		ClientAuth: tls.RequireAndVerifyClientCert,
+	// 	},
+	// }
+	// fmt.Println(s.ListenAndServeTLS("./server.crt", "./server.key")) // 客户端需要新的证书没生产所以客户端代码没写
 }
